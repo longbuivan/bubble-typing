@@ -20,7 +20,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
+  font-size: 24px;
   color: white;
 }
 
@@ -36,3 +36,30 @@
     transform: rotate(360deg);
   }
 }
+
+.app-container {
+  position: relative;
+  height: 100vh;
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden; /* Hide scrollbars */
+  justify-content: flex-start;
+  padding: 20px;
+  background-color: hsla(120, 97%, 31%, 0.997); /* Background color of the application */
+}
+
+.bubble {
+  background-color: #ffffff;
+  color: #000000;
+  padding: 10px 15px;
+  border-radius: 15px;
+  position: absolute;
+  bottom: 100px;
+  font-size: 20px;
+  left: 20px; /* Position the bubble at the left bottom corner */
+  transition: opacity 1s ease-in-out; /* Slowly disappear effect */
+  max-width: 300px; /* Adjust the width if needed */
+  word-wrap: break-word;
+}
+
+/* Additional styles or modifications as needed */
