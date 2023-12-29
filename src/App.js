@@ -2,70 +2,65 @@ import React, { useState, useEffect } from 'react';
 import './App.css'; // CSS file to style the components
 
 const BubbleApp = () => {
+  const [messages, setMessages] = useState([]);
   const [displayText, setDisplayText] = useState('');
 
   useEffect(() => {
-    let timeoutId;
-
-    const keyDownHandler = (e) => {
+    const handleKeyPress = (e) => {
       const typedChar = e.key;
 
-      if (
-        (e.keyCode === 8 || e.key === 'Backspace') && // Handling Backspace
-        displayText.length > 0
-      ) {
+      if (e.key === 'Enter') {
+        if (displayText.trim() !== '') {
+          const newMessage = { id: new Date().getTime(), text: displayText.trim() };
+          if (messages.length >= 3) {
+            const updatedMessages = messages.slice(1); // Remove oldest message if there are already 3
+            setMessages([...updatedMessages, newMessage]);
+          } else {
+            setMessages(prevMessages => [...prevMessages, newMessage]);
+          }
+          setDisplayText('');
+        }
+      } else if (e.key === 'Backspace') {
         setDisplayText(prevText => prevText.slice(0, -1));
-      } else if (
-        e.key !== 'Shift' &&
-        e.key !== 'Enter' &&
-        /^[a-zA-Z0-9 .,!@]+$/.test(typedChar)
-      ) {
+      } else if (e.key === 'Shift') {
+        // Handle Shift key (optional)
+      } else if (/^[a-zA-Z0-9\s,.?!@]+$/.test(typedChar) || (e.shiftKey && typedChar.length === 1)) {
         setDisplayText(prevText => {
-          const newText = prevText + typedChar;
-          return newText.length > 20 ? wrapText(newText) : newText;
+          const newText = prevText + (e.shiftKey ? typedChar.toUpperCase() : typedChar);
+          return newText.length > 100 ? newText.slice(0, 100) : newText;
         });
       }
-
-      if (e.key === 'Enter') {
-        setDisplayText('');
-      }
-
-      clearTimeout(timeoutId);
-      timeoutId = setTimeout(() => {
-        setDisplayText('');
-      }, 2000); // Change the duration here for the bubble to disappear slowly
     };
 
-    const wrapText = (text) => {
-      let wrappedText = '';
-      let remainingText = text;
-      while (remainingText.length > 100) {
-        let line = remainingText.substring(0, 100);
-        const lastSpaceIndex = line.lastIndexOf(' ');
-        if (lastSpaceIndex !== -1) {
-          line = line.substring(0, lastSpaceIndex);
-        }
-        wrappedText += line + '\n';
-        remainingText = remainingText.substring(line.length).trim();
-      }
-      if (remainingText.length > 0) {
-        wrappedText += remainingText;
-      }
-      return wrappedText;
-    };
+    const timeoutIds = messages.map((message, index) => {
+      return setTimeout(() => {
+        const updatedMessages = [...messages];
+        updatedMessages.splice(index, 1);
+        setMessages(updatedMessages);
+      }, 1000);
+    });
 
-    document.addEventListener('keydown', keyDownHandler);
+    document.addEventListener('keydown', handleKeyPress);
 
     return () => {
-      document.removeEventListener('keydown', keyDownHandler);
-      clearTimeout(timeoutId);
+      document.removeEventListener('keydown', handleKeyPress);
+      timeoutIds.forEach((id) => clearTimeout(id));
     };
-  }, [displayText]);
+  }, [displayText, messages]);
 
   return (
     <div className="app-container" onClick={() => setDisplayText('')}>
-      <div className="bubble" style={{ display: displayText ? 'block' : 'none' }}>
-        {displayText}
+      <div className="bubble">
+        {messages.map((message) => (
+          <div key={message.id} className="chat-bubble">
+            {message.text}
+          </div>
+        ))}
+        {displayText.trim() !== '' && (
+          <div className="current-bubble">
+            {displayText}
+          </div>
+        )}
       </div>
     </div>
   );

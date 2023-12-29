@@ -37,29 +37,47 @@
   }
 }
 
+/* Other styles remain unchanged */
+
 .app-container {
   position: relative;
+  width: 100%;
   height: 100vh;
   display: flex;
   align-items: flex-end;
-  overflow: hidden; /* Hide scrollbars */
   justify-content: flex-start;
+  overflow: hidden; /* Hide scrollbars */
   padding: 20px;
   background-color: hsla(120, 97%, 31%, 0.997); /* Background color of the application */
 }
 
 .bubble {
-  background-color: #ffffff;
-  color: #000000;
-  padding: 10px 15px;
-  border-radius: 15px;
-  position: absolute;
-  bottom: 100px;
-  font-size: 20px;
-  left: 20px; /* Position the bubble at the left bottom corner */
-  transition: opacity 1s ease-in-out; /* Slowly disappear effect */
-  max-width: 300px; /* Adjust the width if needed */
-  word-wrap: break-word;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 80%; /* Adjust the width of the bubble area */
+  max-height: 80%; /* Adjust the maximum height of the bubble area */
+  overflow-y: auto;
+  padding: 20px; /* Increase padding for a softer look */
 }
 
-/* Additional styles or modifications as needed */
+.chat-bubble {
+  background-color: #ffffff; /* Light yellow background color for chat bubble */
+  color: #000000; /* Text color for chat bubble */
+  font-size: 16px; /* Font size for chat bubble */
+  padding: 12px; /* Padding for chat bubble */
+  border-radius: 25px; /* Increased border radius for a softer bubble */
+  margin-bottom: 10px; /* Slightly increased space between chat bubbles */
+  max-width: 80%; /* Maximum width for chat bubble */
+  word-wrap: break-word; /* Allow word wrapping */
+}
+
+.current-bubble {
+  background-color: #ffffff; /* Light blue background color for current message bubble */
+  color: #000000; /* Text color for current message bubble */
+  font-size: 18px; /* Font size for current message bubble */
+  padding: 14px; /* Padding for current message bubble */
+  border-radius: 25px; /* Increased border radius for a softer bubble */
+  max-width: 80%; /* Maximum width for current message bubble */
+  word-wrap: break-word; /* Allow word wrapping */
+}
