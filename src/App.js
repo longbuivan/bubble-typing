@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './App.css'; // CSS file to style the components
+import './App.css';
 
 const BubbleApp = () => {
   const [messages, setMessages] = useState([]);
@@ -23,7 +23,6 @@ const BubbleApp = () => {
       } else if (e.key === 'Backspace') {
         setDisplayText(prevText => prevText.slice(0, -1));
       } else if (e.key === 'Shift') {
-        // Handle Shift key (optional)
       } else if (/^[a-zA-Z0-9\s,.?!@]+$/.test(typedChar) || (e.shiftKey && typedChar.length === 1)) {
         setDisplayText(prevText => {
           const newText = prevText + (e.shiftKey ? typedChar.toUpperCase() : typedChar);
