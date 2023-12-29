@@ -27,7 +27,7 @@ const BubbleApp = () => {
       } else if (/^[a-zA-Z0-9\s,.?!@]+$/.test(typedChar) || (e.shiftKey && typedChar.length === 1)) {
         setDisplayText(prevText => {
           const newText = prevText + (e.shiftKey ? typedChar.toUpperCase() : typedChar);
-          return newText.length > 100 ? newText.slice(0, 100) : newText;
+          return newText.length > 85 ? newText.slice(0, 85) : newText;
         });
       }
     };
